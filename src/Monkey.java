@@ -14,7 +14,7 @@ public class Monkey {
     private int ladderID = -1;
     private int pedalID = -1;
 
-    private Monkey(int ID, String direction, int v) {
+    Monkey(int ID, String direction, int v) {
         this.ID = ID;
         this.direction = direction.equals("L->R");
         this.speed = v;
