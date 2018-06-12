@@ -14,9 +14,9 @@ public class Ladder {
     int ID;
     private final List<Monkey> pedals = Collections.synchronizedList(new ArrayList<>());
 
-    Ladder(int h) {
+    Ladder(int pedalNumber) {
         synchronized (pedals) {
-            for (int i = 0; i < h; i++)
+            for (int i = 0; i < pedalNumber; i++)
                 pedals.add(null);
         }
     }

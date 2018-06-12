@@ -3,10 +3,10 @@ import java.util.*;
 
 public class MonkeyGenerator {
     private final List<Monkey> monkeys = Collections.synchronizedList(new ArrayList<>());
-    private final String filePath = "./test.conf";
     private final int t, N, k, MV;
 
     MonkeyGenerator() throws IOException {
+        String filePath = "./test.conf";
         File file = new File(filePath);
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
         String content;
@@ -37,5 +37,9 @@ public class MonkeyGenerator {
         };
         // schedules the task to be run in an interval
         timer.scheduleAtFixedRate(task, delay, period);
+    }
+
+    List<Monkey> getMonkeys() {
+        return monkeys;
     }
 }
