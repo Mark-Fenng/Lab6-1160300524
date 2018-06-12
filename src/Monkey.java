@@ -7,7 +7,7 @@ import java.util.Arrays;
  * safe from exposure:
  * thread safe:
  */
-public class Monkey {
+public class Monkey implements Runnable {
     private final int ID;
     private final boolean direction;
     private final int speed;
@@ -84,5 +84,10 @@ public class Monkey {
     @Override
     public String toString() {
         return "Monkey" + this.getID();
+    }
+
+    @Override
+    public void run() {
+
     }
 }
