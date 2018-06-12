@@ -11,20 +11,20 @@ import java.util.List;
  * Thread safe:
  */
 public class Ladder {
-    int ID;
-    private final List<Monkey> pedals = Collections.synchronizedList(new ArrayList<>());
+    private int ID;
+    private final List<Pedal> pedals = Collections.synchronizedList(new ArrayList<>());
 
     Ladder(int pedalNumber) {
         synchronized (pedals) {
             for (int i = 0; i < pedalNumber; i++)
-                pedals.add(null);
+                pedals.add(new Pedal());
         }
     }
 
     /**
-     * @return
+     * @return 返回梯子的id值
      */
-    public int getID() {
+    private int getID() {
         return ID;
     }
 
@@ -35,16 +35,16 @@ public class Ladder {
      * @return boolean值，表示是否删除成功
      */
     boolean remove(int index) {
-        if (index > pedals.size() - 1 || pedals.get(index) == null)
+        if (index > pedals.size() - 1 || index < 0)
             return false;
-        pedals.add(index, null);
+        pedals.get(index).setMonkey(null);
         return true;
     }
 
     boolean addMonkey(int index, Monkey monkey) {
-        if (index > pedals.size() - 1 || pedals.get(index) != null)
+        if (index > pedals.size() - 1 || index < 0)
             return false;
-        pedals.add(index, monkey);
+        pedals.get(index).setMonkey(monkey);
         return true;
     }
 
