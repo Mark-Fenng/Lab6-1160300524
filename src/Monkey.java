@@ -1,4 +1,5 @@
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * spec:
@@ -88,6 +89,23 @@ public class Monkey implements Runnable {
 
     @Override
     public void run() {
+        boolean onLadder = false;
+        int position = 0;
+        ladderChoice choice = new firstStrategy();
+        Ladder ladder = choice.getLadder(this, LadderGenerator.getLadders());
+        while (!onLadder) {
+            ladder = choice.getLadder(this, LadderGenerator.getLadders());
+            onLadder = ladder.addMonkey(0, this);
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        int h = LadderGenerator.getLadders().get(0).getSize();
+        while (position <= h) {
+            List<Monkey> monkeyList = ladder.getMonkeys();
 
+        }
     }
 }

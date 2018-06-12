@@ -25,7 +25,7 @@ public class LadderGenerator {
      *
      * @return
      */
-    public List<Ladder> getLadders() {
+    public static List<Ladder> getLadders() {
         return new ArrayList<>(ladders);
     }
 }

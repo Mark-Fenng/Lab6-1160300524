@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * spec
@@ -12,6 +13,8 @@ import java.util.List;
  */
 public class Ladder {
     private int ID;
+    private int size = 0;
+    private String direction = null;
     private final List<Pedal> pedals = Collections.synchronizedList(new ArrayList<>());
 
     Ladder(int pedalNumber) {
@@ -28,6 +31,14 @@ public class Ladder {
         return ID;
     }
 
+    public int getSize() {
+        return size;
+    }
+
+    public String getDirection() {
+        return direction;
+    }
+
     /**
      * 删除指定踏板上的某个猴子
      *
@@ -38,14 +49,29 @@ public class Ladder {
         if (index > pedals.size() - 1 || index < 0)
             return false;
         pedals.get(index).setMonkey(null);
+        size--;
+        if (size == 0)
+            this.direction = null;
         return true;
     }
 
     boolean addMonkey(int index, Monkey monkey) {
         if (index > pedals.size() - 1 || index < 0)
             return false;
-        pedals.get(index).setMonkey(monkey);
-        return true;
+        Pedal pedal = pedals.get(0);
+        synchronized (pedal) {
+            if (pedal.getMonkey() != null) {
+                pedals.get(index).setMonkey(monkey);
+                this.size++;
+                this.direction = monkey.getDirection();
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public List<Monkey> getMonkeys() {
+        return this.pedals.stream().map(Pedal::getMonkey).collect(Collectors.toList());
     }
 
     @Override
