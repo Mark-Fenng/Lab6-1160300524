@@ -5,13 +5,13 @@
  * safe from exposure:
  * Thread safe:
  */
-public class Pedal {
+public class Rung {
     private Monkey monkey = null;
 
-    Pedal() {
+    Rung() {
     }
 
-    public Pedal(Monkey monkey) {
+    public Rung(Monkey monkey) {
         this.monkey = monkey;
     }
 
