@@ -24,7 +24,7 @@ public class Monkey implements Runnable {
     /**
      * @return 猴子的ID
      */
-    int getID() {
+    private int getID() {
         return ID;
     }
 
@@ -66,23 +66,22 @@ public class Monkey implements Runnable {
         ladderChoice choice = new firstStrategy();
         Ladder ladder = choice.getLadder(this, LadderGenerator.getLadders());
         while (!onLadder) {
-            synchronized (ladder) {
-                ladder = choice.getLadder(this, LadderGenerator.getLadders());
-                if (ladder != null)
-                    onLadder = ladder.addMonkey(0, this);
-            }
+            ladder = choice.getLadder(this, LadderGenerator.getLadders());
+            if (ladder != null)
+                onLadder = ladder.addMonkey(0, this);
+            if (onLadder)
+                MyLogger.info(this.getID() + " Get on the Ladder " + ladder.getID());
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
-        MyLogger.info(this.getID() + " Get on the Ladder " + ladder.getID());
         int h = LadderGenerator.getLadders().get(0).getMonkeys().size();
-        while (position <= h) {
+        while (position < h - 1) {
             List<Pedal> monkeyList = ladder.getMonkeys();
             int tryIndex = position + 1;
-            while (tryIndex <= position + this.speed) {
+            while (tryIndex <= Math.min(position + this.speed, h - 1)) {
                 if (monkeyList.get(tryIndex).getMonkey() == null)
                     tryIndex++;
                 else
@@ -96,7 +95,7 @@ public class Monkey implements Runnable {
                     ladder.remove(position);
                     ladder.addMonkey(tryIndex, this);
                 }
-                MyLogger.info(this.getID() + " on the Ladder " + ladder.getID() + " jump to the " + tryIndex + "th pedal");
+                MyLogger.info(this.getID() + " on the Ladder " + ladder.getID() + " jump to the " + (tryIndex + 1) + "th pedal");
                 position = tryIndex;
             }
             try {
@@ -105,6 +104,7 @@ public class Monkey implements Runnable {
                 e.printStackTrace();
             }
         }
+        MyLogger.info(this.getID() + " on the Ladder " + ladder.getID() + " passed the ladder ");
         ladder.remove(position);
     }
 }

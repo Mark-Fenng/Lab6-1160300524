@@ -17,7 +17,8 @@ public class Ladder {
     private String direction = null;
     private final List<Pedal> pedals = Collections.synchronizedList(new ArrayList<>());
 
-    Ladder(int pedalNumber) {
+    Ladder(int pedalNumber, int ID) {
+        this.ID = ID;
         synchronized (pedals) {
             for (int i = 0; i < pedalNumber; i++)
                 pedals.add(new Pedal());
@@ -70,7 +71,7 @@ public class Ladder {
         return false;
     }
 
-    public List<Pedal> getMonkeys() {
+    List<Pedal> getMonkeys() {
         return this.pedals;
     }
 

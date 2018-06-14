@@ -14,7 +14,7 @@ class LadderGenerator {
         if (ladders == null) {
             ladders = new ArrayList<>();
             for (int i = 0; i < ladderNumber; i++)
-                ladders.add(new Ladder(pedalNumber));
+                ladders.add(new Ladder(pedalNumber, i + 1));
         }
     }
 
