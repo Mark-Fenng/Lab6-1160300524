@@ -6,13 +6,16 @@ import java.util.stream.Collectors;
 
 /**
  * spec
- * AF:
- * RI:
+ * AF: ID->梯子的唯一标识
+ * size-> 当前梯子上爬着的猴子数量（便于在选择过河策略中的实现）
+ * direction->当前梯子上所有猴子的过河方向（null->梯子上没有猴子 "R->L"所有猴子的方向都是从右到左 "L->R"所有的猴子方向都是从左到右）
+ * pedals-> 一个列表，存储的台阶对象
+ * RI: pedals的数量始终等于传入的pedalNumber数量 direction的值只能是null,"L->R" ,"R->L"三个值 size>=0
  * safe from exposure:
  * Thread safe:
  */
 public class Ladder {
-    private int ID;
+    private final int ID;
     private int size = 0;
     private String direction = null;
     private final List<Pedal> pedals = Collections.synchronizedList(new ArrayList<>());
