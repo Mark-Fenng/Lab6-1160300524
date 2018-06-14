@@ -2,7 +2,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * spec
@@ -74,8 +73,8 @@ public class Ladder {
         return false;
     }
 
-    List<Pedal> getMonkeys() {
-        return this.pedals;
+    List<Pedal> getPedals() {
+        return new ArrayList<>(this.pedals);
     }
 
     @Override

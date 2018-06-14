@@ -1,6 +1,12 @@
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * spec：
+ * 这个类是个静态类，所有的成员变量都是静态的
+ * 初始时需要传入梯子的数量和每个梯子的台阶数，一次生成后就不能再更改
+ * 在调用getLadders()函数之前必须在调用之前调用过一次generateLadders()，否则无法得到梯子
+ */
 class LadderGenerator {
     private static List<Ladder> ladders = null;
 

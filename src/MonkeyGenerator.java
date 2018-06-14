@@ -2,10 +2,19 @@ import LoggerFactory.MyLogger;
 
 import java.util.*;
 
+/**
+ * 这个类负责每秒生成指定数量的猴子
+ */
 class MonkeyGenerator {
     private final List<Monkey> monkeys = Collections.synchronizedList(new ArrayList<>());
     private final int t, N, k, MV;
 
+    /**
+     * @param t  间隔t秒生成一拨猴子
+     * @param N  最终生成的猴子数量
+     * @param k  每一拨生成的猴子数量
+     * @param MV 生成猴子的最快速度
+     */
     MonkeyGenerator(int t, int N, int k, int MV) {
         this.t = t;
         this.N = N;
@@ -13,6 +22,9 @@ class MonkeyGenerator {
         this.MV = MV;
     }
 
+    /**
+     * 调用这个函数之后，开始按照要求产生猴子，并启动猴子的过河线程
+     */
     void generate() {
         Timer timer = new Timer();
         long delay = 0;
@@ -36,6 +48,11 @@ class MonkeyGenerator {
         timer.scheduleAtFixedRate(task, delay, period);
     }
 
+    /**
+     * 获得当前时间已经产生的猴子的列表
+     *
+     * @return 猴子的所有列表
+     */
     List<Monkey> getMonkeys() {
         return monkeys;
     }

@@ -5,8 +5,10 @@ import java.util.List;
 
 /**
  * spec:
- * AF:
- * RI:
+ * AF:ID->猴子的唯一标识
+ * direction->true="L->R",false="R->L"
+ * speed -> 猴子在梯子上的爬行速度 ，正整数
+ * RI: speed>=1，且为整数
  * safe from exposure:
  * thread safe:
  */
@@ -61,10 +63,11 @@ public class Monkey implements Runnable {
 
     @Override
     public void run() {
-        boolean onLadder = false;
-        int position = 0;
+        boolean onLadder = false; // 猴子是否已经上了梯子的一个标志
+        int position = 0; // 猴子当前的位置
         ladderChoice choice = new firstStrategy();
-        Ladder ladder = choice.getLadder(this, LadderGenerator.getLadders());
+        Ladder ladder = choice.getLadder(this, LadderGenerator.getLadders()); // 猴子选择爬上的梯子对象
+        // 如果猴子没有爬上梯子，就每个1s做一次决策，直到爬上梯子为止
         while (!onLadder) {
             ladder = choice.getLadder(this, LadderGenerator.getLadders());
             if (ladder != null)
@@ -77,10 +80,13 @@ public class Monkey implements Runnable {
                 e.printStackTrace();
             }
         }
-        int h = LadderGenerator.getLadders().get(0).getMonkeys().size();
+        int h = LadderGenerator.getLadders().get(0).getPedals().size(); // 梯子的台阶数
+
+        // 如果猴子还在梯子上没有过河的操作
         while (position < h - 1) {
-            List<Pedal> monkeyList = ladder.getMonkeys();
+            List<Pedal> monkeyList = ladder.getPedals();
             int tryIndex = position + 1;
+            // 寻找当前位置之后的适合位置的台阶
             while (tryIndex <= Math.min(position + this.speed, h - 1)) {
                 if (monkeyList.get(tryIndex).getMonkey() == null)
                     tryIndex++;
