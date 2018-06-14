@@ -22,7 +22,7 @@ public class Monkey implements Runnable {
     /**
      * @return 猴子的ID
      */
-    private int getID() {
+    int getID() {
         return ID;
     }
 
