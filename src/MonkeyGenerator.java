@@ -31,7 +31,9 @@ public class MonkeyGenerator {
                         timer.cancel();
                         break;
                     }
-                    monkeys.add(new Monkey(monkeys.size(), Math.random() < 0.5 ? "L->R" : "R->L", (int) Math.random() * MV));
+                    Monkey newMonkey = new Monkey(monkeys.size(), Math.random() < 0.5 ? "L->R" : "R->L", (int) Math.random() * MV);
+                    monkeys.add(newMonkey);
+                    new Thread(newMonkey).start();
                 }
             }
         };

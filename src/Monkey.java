@@ -105,7 +105,18 @@ public class Monkey implements Runnable {
         int h = LadderGenerator.getLadders().get(0).getSize();
         while (position <= h) {
             List<Monkey> monkeyList = ladder.getMonkeys();
-
+            int tryIndex = position + 1;
+            while (tryIndex <= position + this.speed) {
+                if (monkeyList.get(tryIndex) == null)
+                    tryIndex++;
+                else
+                    break;
+            }
+            tryIndex--;
+            if (tryIndex != position) {
+                ladder.remove(position);
+                ladder.addMonkey(tryIndex, this);
+            }
         }
     }
 }
