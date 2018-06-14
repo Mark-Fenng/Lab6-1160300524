@@ -15,7 +15,7 @@ public class Pedal {
         this.monkey = monkey;
     }
 
-    public Monkey getMonkey() {
+    Monkey getMonkey() {
         return monkey;
     }
 

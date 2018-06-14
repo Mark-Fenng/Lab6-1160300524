@@ -25,9 +25,9 @@ class MonkeyGenerator {
                         timer.cancel();
                         break;
                     }
-                    Monkey newMonkey = new Monkey(monkeys.size(), Math.random() < 0.5 ? "L->R" : "R->L", (int) (Math.random() * MV));
+                    Monkey newMonkey = new Monkey(monkeys.size(), Math.random() < 0.5 ? "L->R" : "R->L", (int) (Math.random() * MV) + 1);
                     monkeys.add(newMonkey);
-                    MyLogger.info(newMonkey.getID() + "is generated");
+//                    MyLogger.info(newMonkey.getID() + "is generated");
                     new Thread(newMonkey).start();
                 }
             }

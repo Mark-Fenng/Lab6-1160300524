@@ -27,15 +27,15 @@ public class Ladder {
     /**
      * @return 返回梯子的id值
      */
-    private int getID() {
+    int getID() {
         return ID;
     }
 
-    public int getSize() {
+    int getSize() {
         return size;
     }
 
-    public String getDirection() {
+    String getDirection() {
         return direction;
     }
 
@@ -60,7 +60,7 @@ public class Ladder {
             return false;
         Pedal pedal = pedals.get(0);
         synchronized (pedal) {
-            if (pedal.getMonkey() != null) {
+            if (pedal.getMonkey() == null) {
                 pedals.get(index).setMonkey(monkey);
                 this.size++;
                 this.direction = monkey.getDirection();
@@ -70,8 +70,8 @@ public class Ladder {
         return false;
     }
 
-    public List<Monkey> getMonkeys() {
-        return this.pedals.stream().map(Pedal::getMonkey).collect(Collectors.toList());
+    public List<Pedal> getMonkeys() {
+        return this.pedals;
     }
 
     @Override

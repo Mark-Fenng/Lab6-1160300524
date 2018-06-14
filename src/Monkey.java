@@ -1,3 +1,5 @@
+import LoggerFactory.MyLogger;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -64,20 +66,24 @@ public class Monkey implements Runnable {
         ladderChoice choice = new firstStrategy();
         Ladder ladder = choice.getLadder(this, LadderGenerator.getLadders());
         while (!onLadder) {
-            ladder = choice.getLadder(this, LadderGenerator.getLadders());
-            onLadder = ladder.addMonkey(0, this);
+            synchronized (ladder) {
+                ladder = choice.getLadder(this, LadderGenerator.getLadders());
+                if (ladder != null)
+                    onLadder = ladder.addMonkey(0, this);
+            }
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
-        int h = LadderGenerator.getLadders().get(0).getSize();
+        MyLogger.info(this.getID() + " Get on the Ladder " + ladder.getID());
+        int h = LadderGenerator.getLadders().get(0).getMonkeys().size();
         while (position <= h) {
-            List<Monkey> monkeyList = ladder.getMonkeys();
+            List<Pedal> monkeyList = ladder.getMonkeys();
             int tryIndex = position + 1;
             while (tryIndex <= position + this.speed) {
-                if (monkeyList.get(tryIndex) == null)
+                if (monkeyList.get(tryIndex).getMonkey() == null)
                     tryIndex++;
                 else
                     break;
@@ -86,8 +92,11 @@ public class Monkey implements Runnable {
             if (tryIndex != position) {
                 if (tryIndex > h - 1)
                     tryIndex = h - 1;
-                ladder.remove(position);
-                ladder.addMonkey(tryIndex, this);
+                synchronized (ladder) {
+                    ladder.remove(position);
+                    ladder.addMonkey(tryIndex, this);
+                }
+                MyLogger.info(this.getID() + " on the Ladder " + ladder.getID() + " jump to the " + tryIndex + "th pedal");
                 position = tryIndex;
             }
             try {
