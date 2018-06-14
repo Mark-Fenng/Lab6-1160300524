@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class LadderGenerator {
+class LadderGenerator {
     private static List<Ladder> ladders = null;
 
     /**
@@ -10,8 +10,8 @@ public class LadderGenerator {
      * @param ladderNumber 要求生成的梯子的数量 spec:大于0
      * @param pedalNumber  要求每个梯子上拥有的台阶的数量 spec:大于0
      */
-    public static void generateLadders(int ladderNumber, int pedalNumber) {
-        if (ladders != null) {
+    static void generateLadders(int ladderNumber, int pedalNumber) {
+        if (ladders == null) {
             ladders = new ArrayList<>();
             for (int i = 0; i < ladderNumber; i++)
                 ladders.add(new Ladder(pedalNumber));
@@ -23,9 +23,11 @@ public class LadderGenerator {
      * 返回一个新建的列表是为了防止外部改变梯子在列表中的顺序
      * 即外部改变梯子在列表中的顺序不会对此静态对象列表中的梯子对象的顺序产生影响
      *
-     * @return
+     * @return 返回所有已经生成的梯子, 存储在一个列表中
      */
-    public static List<Ladder> getLadders() {
-        return new ArrayList<>(ladders);
+    static List<Ladder> getLadders() {
+        if (ladders != null)
+            return new ArrayList<>(ladders);
+        return new ArrayList<>();
     }
 }

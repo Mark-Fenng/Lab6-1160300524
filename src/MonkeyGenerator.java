@@ -1,22 +1,15 @@
 import java.io.*;
 import java.util.*;
 
-public class MonkeyGenerator {
+class MonkeyGenerator {
     private final List<Monkey> monkeys = Collections.synchronizedList(new ArrayList<>());
     private final int t, N, k, MV;
 
-    MonkeyGenerator() throws IOException {
-        String filePath = "./test.conf";
-        File file = new File(filePath);
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
-        String content;
-        content = bufferedReader.readLine();
-        String[] arguments = content.split(" ");
-        t = Integer.parseInt(arguments[2]);
-        N = Integer.parseInt(arguments[3]);
-        k = Integer.parseInt(arguments[4]);
-        MV = Integer.parseInt(arguments[5]);
-        bufferedReader.close();
+    MonkeyGenerator(int t, int N, int k, int MV) {
+        this.t = t;
+        this.N = N;
+        this.k = k;
+        this.MV = MV;
     }
 
     void generate() {
@@ -31,7 +24,7 @@ public class MonkeyGenerator {
                         timer.cancel();
                         break;
                     }
-                    Monkey newMonkey = new Monkey(monkeys.size(), Math.random() < 0.5 ? "L->R" : "R->L", (int) Math.random() * MV);
+                    Monkey newMonkey = new Monkey(monkeys.size(), Math.random() < 0.5 ? "L->R" : "R->L", (int) (Math.random() * MV));
                     monkeys.add(newMonkey);
                     new Thread(newMonkey).start();
                 }

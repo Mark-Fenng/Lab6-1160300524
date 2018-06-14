@@ -12,8 +12,6 @@ public class Monkey implements Runnable {
     private final int ID;
     private final boolean direction;
     private final int speed;
-    private int ladderID = -1;
-    private int pedalID = -1;
 
     Monkey(int ID, String direction, int v) {
         this.ID = ID;
@@ -24,7 +22,7 @@ public class Monkey implements Runnable {
     /**
      * @return 猴子的ID
      */
-    int getID() {
+    private int getID() {
         return ID;
     }
 
@@ -40,34 +38,6 @@ public class Monkey implements Runnable {
      */
     int getSpeed() {
         return speed;
-    }
-
-    /**
-     * @return
-     */
-    public int getLadderID() {
-        return ladderID;
-    }
-
-    /**
-     * @return
-     */
-    public int getPedalID() {
-        return pedalID;
-    }
-
-    /**
-     * @param pedalID
-     */
-    public void setPedalID(int pedalID) {
-        this.pedalID = pedalID;
-    }
-
-    /**
-     * @param ladderID
-     */
-    public void setLadderID(int ladderID) {
-        this.ladderID = ladderID;
     }
 
     @Override
@@ -114,9 +84,18 @@ public class Monkey implements Runnable {
             }
             tryIndex--;
             if (tryIndex != position) {
+                if (tryIndex > h - 1)
+                    tryIndex = h - 1;
                 ladder.remove(position);
                 ladder.addMonkey(tryIndex, this);
+                position = tryIndex;
+            }
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
         }
+        ladder.remove(position);
     }
 }
