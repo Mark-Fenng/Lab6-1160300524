@@ -97,12 +97,13 @@ public class Monkey implements Runnable {
             if (tryIndex != position) {
                 if (tryIndex > h - 1)
                     tryIndex = h - 1;
-                synchronized (ladder) {
-                    ladder.remove(position);
-                    ladder.addMonkey(tryIndex, this);
+                synchronized (ladder.getRungs()) {
+                    if (ladder.addMonkey(tryIndex, this)) {
+                        ladder.remove(position);
+                        MyLogger.info(this.getID() + " on the Ladder " + ladder.getID() + " jump to the " + (tryIndex + 1) + "th rung");
+                        position = tryIndex;
+                    }
                 }
-                MyLogger.info(this.getID() + " on the Ladder " + ladder.getID() + " jump to the " + (tryIndex + 1) + "th rung");
-                position = tryIndex;
             }
             try {
                 Thread.sleep(1000);

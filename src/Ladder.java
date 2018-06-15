@@ -34,10 +34,16 @@ public class Ladder {
         return ID;
     }
 
+    /**
+     * @return 当前梯子上的猴子的数量
+     */
     int getSize() {
         return size;
     }
 
+    /**
+     * @return 当前梯子上猴子的行进方向
+     */
     String getDirection() {
         return direction;
     }
@@ -58,21 +64,29 @@ public class Ladder {
         return true;
     }
 
+    /**
+     * 在梯子的指定台阶上放置猴子
+     * 需要设置猴子的台阶必须原来是空的，否则无法添加成功，会返回false
+     * 可以将某个台阶位置置空（传入的monkey对象为空）
+     *
+     * @param index  指定梯子上的台阶位置
+     * @param monkey 需要设置的猴子
+     * @return 是否设置成功的boolean值
+     */
     boolean addMonkey(int index, Monkey monkey) {
         if (index > rungs.size() - 1 || index < 0)
             return false;
-        Rung rung = rungs.get(0);
-        synchronized (rung) {
-            if (rung.getMonkey() == null) {
-                rungs.get(index).setMonkey(monkey);
-                this.size++;
-                this.direction = monkey.getDirection();
-                return true;
-            }
+        if (rungs.get(index).setMonkey(monkey)) {
+            this.size++;
+            this.direction = monkey.getDirection();
+            return true;
         }
         return false;
     }
 
+    /**
+     * @return 这个梯子上的所有台阶
+     */
     List<Rung> getRungs() {
         return new ArrayList<>(this.rungs);
     }
