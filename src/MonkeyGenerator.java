@@ -74,5 +74,14 @@ class MonkeyGenerator {
         endTime = System.currentTimeMillis();
         double throughputRate = (endTime - startTime) / 1000.0 / N;
         MyLogger.info("Throughput Rate is " + throughputRate);
+        int fairness = 0;
+        for (int i = 0; i < monkeys.size() - 1; i++)
+            for (int j = i + 1; j < monkeys.size(); j++) {
+                if (((monkeys.get(i).getBornTime() - monkeys.get(j).getBornTime()) ^ (monkeys.get(i).getArrivedTime() - monkeys.get(j).getArrivedTime())) >= 0)
+                    fairness++;
+                else
+                    fairness--;
+            }
+        MyLogger.info("Fairness is " + fairness / (double) (N * N));
     }
 }

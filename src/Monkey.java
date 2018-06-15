@@ -18,11 +18,13 @@ public class Monkey implements Runnable {
     private final int ID;
     private final boolean direction;
     private final int speed;
+    private long bornTime = 0, arrivedTime = 0;
 
     Monkey(int ID, String direction, int v) {
         this.ID = ID;
         this.direction = direction.equals("L->R");
         this.speed = v;
+        bornTime = System.currentTimeMillis();
     }
 
     /**
@@ -46,6 +48,24 @@ public class Monkey implements Runnable {
         return speed;
     }
 
+    /**
+     * 得到这只猴子的出生时间
+     *
+     * @return 猴子的出生时间，单位 ms
+     */
+    long getBornTime() {
+        return bornTime;
+    }
+
+    /**
+     * 得到这只猴子到达河对岸的时间
+     *
+     * @return 猴子到达对岸的时间，单位 ms
+     */
+    long getArrivedTime() {
+        return arrivedTime;
+    }
+
     @Override
     public boolean equals(Object obj) {
         return obj != null && obj instanceof Monkey && ((Monkey) obj).getID() == this.ID;
@@ -65,6 +85,7 @@ public class Monkey implements Runnable {
 
     @Override
     public void run() {
+        this.bornTime = System.currentTimeMillis();
         boolean onLadder = false; // 猴子是否已经上了梯子的一个标志
         int position = 0; // 猴子当前的位置
         ladderChoice choice = new firstStrategy();
@@ -113,5 +134,6 @@ public class Monkey implements Runnable {
         }
         MyLogger.info(this.getID() + " on the Ladder " + ladder.getID() + " passed the ladder ");
         ladder.removeMonkey(position);
+        arrivedTime = System.currentTimeMillis();
     }
 }
