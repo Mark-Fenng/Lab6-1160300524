@@ -11,7 +11,15 @@ import java.util.List;
  * rungs-> 一个列表，存储的台阶对象
  * RI: rungs的数量始终等于传入的rungNumber数量 direction的值只能是null,"L->R" ,"R->L"三个值 size>=0 梯子上所有猴子的方向必须是一致的
  * safe from exposure:
+ * 所有的成员变量的访问权限都是private，类的外部不可能直接访问这些变量
+ * 为外部提供了修改某个台阶上猴子的封装方法，但是没有暴露出梯子内台阶的存储和实现，因为台阶对象rung是内部类
  * Thread safe:
+ * ID是private和不可变的，是线程安全的
+ * getSize(),getID(),getDirection()方法内部都是原子操作，不会有线程安全问题
+ * getMonkeys()对访问公共数据的部分，加了线程锁，保证了线程安全
+ * setMonkey()方法在修改线程公共数据rung时，使用了线程安全的方法get()和setMonkey()，同时对size和direction的修改不会因为多线程而改变结果
+ * removeMonkey()方法 使用了线程安全的方法get()和getMonkey()，同时对size和direction的修改加了线程锁
+ * 这个类是线程安全类
  */
 public class Ladder {
     private final int ID;
@@ -54,13 +62,16 @@ public class Ladder {
      * @param index 踏板的下标
      * @return boolean值，表示是否删除成功
      */
-    boolean remove(int index) {
+    boolean removeMonkey(int index) {
         if (index > rungs.size() - 1 || index < 0)
             return false;
         rungs.get(index).setMonkey(null);
-        size--;
-        if (size == 0)
-            this.direction = null;
+        byte[] lock = new byte[0]; // 用了对代码块进行加锁
+        synchronized (lock) {
+            size--;
+            if (size == 0)
+                this.direction = null;
+        }
         return true;
     }
 
@@ -91,8 +102,10 @@ public class Ladder {
      */
     List<Monkey> getMonkeys() {
         List<Monkey> monkeys = new ArrayList<>();
-        for (Rung item : rungs)
-            monkeys.add(item.getMonkey());
+        synchronized (rungs) {
+            for (Rung item : rungs)
+                monkeys.add(item.getMonkey());
+        }
         return monkeys;
     }
 
@@ -119,7 +132,12 @@ public class Ladder {
  * AF:monkey->存储当前台阶上的猴子对象
  * RI: 无
  * safe from exposure:
+ * 内部的monkey对象是private属性，外部无法直接访问和修改
+ * monkey的修改方法经过了封装，外部无法利用类的内部实现
  * Thread safe:
+ * getMonkey()方法自身就是原子操作，不会出现线程危险
+ * setMonkey()方法加了锁，它只能被一个线程同时调用，是线程安全的
+ * 这个类是线程安全的类
  */
 class Rung {
     private Monkey monkey = null;
@@ -142,6 +160,7 @@ class Rung {
      * 规定如果阶梯是空的才可以放新的猴子
      * 或者放进的猴子对象为空（将台阶置空）
      * 其他情况都会添加失败
+     * 这个方法是线程安全的方法
      *
      * @param newMonkey 添加进来的新的猴子对象
      * @return 表示这个台阶的猴子是否添加成功
