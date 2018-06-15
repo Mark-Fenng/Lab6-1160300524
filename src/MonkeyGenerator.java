@@ -7,7 +7,9 @@ import java.util.*;
  */
 class MonkeyGenerator {
     private final List<Monkey> monkeys = Collections.synchronizedList(new ArrayList<>());
+    private final List<Thread> monkeysThread = new ArrayList<>();
     private final int t, N, k, MV;
+    private long startTime, endTime;
 
     /**
      * @param t  间隔t秒生成一拨猴子
@@ -26,6 +28,7 @@ class MonkeyGenerator {
      * 调用这个函数之后，开始按照要求产生猴子，并启动猴子的过河线程
      */
     void generate() {
+        startTime = System.currentTimeMillis();
         Timer timer = new Timer();
         long delay = 0;
         long period = t * 1000;
@@ -34,13 +37,16 @@ class MonkeyGenerator {
             public void run() {
                 for (int i = 0; i < k; i++) {
                     if (monkeys.size() >= N) {
+                        timeCallBack();
                         timer.cancel();
                         break;
                     }
                     Monkey newMonkey = new Monkey(monkeys.size() + 1, Math.random() < 0.5 ? "L->R" : "R->L", (int) (Math.random() * MV) + 1);
                     monkeys.add(newMonkey);
 //                    MyLogger.info(newMonkey.getID() + "is generated");
-                    new Thread(newMonkey).start();
+                    Thread monkeyThread = new Thread(newMonkey);
+                    monkeyThread.start();
+                    monkeysThread.add(monkeyThread);
                 }
             }
         };
@@ -55,5 +61,18 @@ class MonkeyGenerator {
      */
     List<Monkey> getMonkeys() {
         return monkeys;
+    }
+
+    private void timeCallBack() {
+        monkeysThread.forEach(item -> {
+            try {
+                item.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
+        endTime = System.currentTimeMillis();
+        double throughputRate = (endTime - startTime) / 1000.0 / N;
+        MyLogger.info("Throughput Rate is " + throughputRate);
     }
 }
