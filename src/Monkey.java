@@ -10,7 +10,9 @@ import java.util.List;
  * speed -> 猴子在梯子上的爬行速度 ，正整数
  * RI: speed>=1，且为整数
  * safe from exposure:
+ * 这个类中所有的成员变量都是private和不可变的，不会有表示泄漏的问题
  * thread safe:
+ * 这个类没有多线程公共的数据，不会有线程安全问题
  */
 public class Monkey implements Runnable {
     private final int ID;
