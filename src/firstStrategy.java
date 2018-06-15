@@ -6,7 +6,7 @@ public class firstStrategy implements ladderChoice {
         Ladder emptyLadder = ladderList.stream().filter(item -> item.getSize() == 0).findFirst().orElse(null);
         if (emptyLadder == null) {
             for (Ladder item : ladderList) {
-                if ((item.getDirection() == null || item.getDirection().equals(monkey.getDirection())) && item.getRungs().get(0).getMonkey() == null)
+                if ((item.getDirection() == null || item.getDirection().equals(monkey.getDirection())) && item.getMonkeys().get(0) == null)
                     return item;
             }
         }

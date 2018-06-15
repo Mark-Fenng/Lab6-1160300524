@@ -40,7 +40,7 @@ public class Monkey implements Runnable {
     /**
      * @return 猴子的移动速度
      */
-    int getSpeed() {
+    private int getSpeed() {
         return speed;
     }
 
@@ -80,15 +80,15 @@ public class Monkey implements Runnable {
                 e.printStackTrace();
             }
         }
-        int h = LadderGenerator.getLadders().get(0).getRungs().size(); // 梯子的台阶数
+        int h = LadderGenerator.getLadders().get(0).getMonkeys().size(); // 梯子的台阶数
 
         // 如果猴子还在梯子上没有过河的操作
         while (position < h - 1) {
-            List<Rung> monkeyList = ladder.getRungs();
+            List<Monkey> monkeyList = ladder.getMonkeys();
             int tryIndex = position + 1;
             // 寻找当前位置之后的适合位置的台阶
-            while (tryIndex <= Math.min(position + this.speed, h - 1)) {
-                if (monkeyList.get(tryIndex).getMonkey() == null)
+            while (tryIndex <= Math.min(position + this.getSpeed(), h - 1)) {
+                if (monkeyList.get(tryIndex) == null)
                     tryIndex++;
                 else
                     break;
@@ -97,12 +97,10 @@ public class Monkey implements Runnable {
             if (tryIndex != position) {
                 if (tryIndex > h - 1)
                     tryIndex = h - 1;
-                synchronized (ladder.getRungs()) {
-                    if (ladder.addMonkey(tryIndex, this)) {
-                        ladder.remove(position);
-                        MyLogger.info(this.getID() + " on the Ladder " + ladder.getID() + " jump to the " + (tryIndex + 1) + "th rung");
-                        position = tryIndex;
-                    }
+                if (ladder.addMonkey(tryIndex, this)) {
+                    ladder.remove(position);
+                    MyLogger.info(this.getID() + " on the Ladder " + ladder.getID() + " jump to the " + (tryIndex + 1) + "th rung");
+                    position = tryIndex;
                 }
             }
             try {

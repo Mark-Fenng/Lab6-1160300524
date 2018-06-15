@@ -9,7 +9,7 @@ import java.util.List;
  * size-> 当前梯子上爬着的猴子数量（便于在选择过河策略中的实现）
  * direction->当前梯子上所有猴子的过河方向（null->梯子上没有猴子 "R->L"所有猴子的方向都是从右到左 "L->R"所有的猴子方向都是从左到右）
  * rungs-> 一个列表，存储的台阶对象
- * RI: rungs的数量始终等于传入的rungNumber数量 direction的值只能是null,"L->R" ,"R->L"三个值 size>=0
+ * RI: rungs的数量始终等于传入的rungNumber数量 direction的值只能是null,"L->R" ,"R->L"三个值 size>=0 梯子上所有猴子的方向必须是一致的
  * safe from exposure:
  * Thread safe:
  */
@@ -85,10 +85,15 @@ public class Ladder {
     }
 
     /**
-     * @return 这个梯子上的所有台阶
+     * 如果某个位置是空的，则表示这个台阶上没有猴子
+     *
+     * @return 这个梯子对应台阶上的猴子，是一个列表
      */
-    List<Rung> getRungs() {
-        return new ArrayList<>(this.rungs);
+    List<Monkey> getMonkeys() {
+        List<Monkey> monkeys = new ArrayList<>();
+        for (Rung item : rungs)
+            monkeys.add(item.getMonkey());
+        return monkeys;
     }
 
     @Override
@@ -106,5 +111,53 @@ public class Ladder {
     @Override
     public String toString() {
         return "Ladder" + this.getID();
+    }
+}
+
+/**
+ * spec
+ * AF:monkey->存储当前台阶上的猴子对象
+ * RI: 无
+ * safe from exposure:
+ * Thread safe:
+ */
+class Rung {
+    private Monkey monkey = null;
+
+    Rung() {
+    }
+
+    /**
+     * 得到当前台阶上的猴子对象
+     *
+     * @return 返回当前台阶上的猴子对象
+     */
+    Monkey getMonkey() {
+        return monkey;
+    }
+
+    /**
+     * 给当前阶梯设置一个新的猴子对象
+     * 添加成功的条件：
+     * 规定如果阶梯是空的才可以放新的猴子
+     * 或者放进的猴子对象为空（将台阶置空）
+     * 其他情况都会添加失败
+     *
+     * @param newMonkey 添加进来的新的猴子对象
+     * @return 表示这个台阶的猴子是否添加成功
+     */
+    synchronized boolean setMonkey(Monkey newMonkey) {
+        // 给空的台阶放置新的猴子
+        if (newMonkey == null) {
+            this.monkey = null;
+            return true;
+        } else {
+            // 将此台阶置空
+            if (this.monkey == null) {
+                this.monkey = newMonkey;
+                return true;
+            } else
+                return false;
+        }
     }
 }

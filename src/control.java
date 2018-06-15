@@ -4,7 +4,7 @@ import java.io.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class controll {
+public class control {
     public static void main(String[] args) throws IOException {
         int n = 5, h = 5, t = 5, N = 5, k = 0, MV = 5;
         String filePath = "./test.conf";
