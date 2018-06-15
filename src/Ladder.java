@@ -78,7 +78,6 @@ public class Ladder {
     /**
      * 在梯子的指定台阶上放置猴子
      * 需要设置猴子的台阶必须原来是空的，否则无法添加成功，会返回false
-     * 可以将某个台阶位置置空（传入的monkey对象为空）
      *
      * @param index  指定梯子上的台阶位置
      * @param monkey 需要设置的猴子
@@ -167,16 +166,10 @@ class Rung {
      */
     synchronized boolean setMonkey(Monkey newMonkey) {
         // 给空的台阶放置新的猴子
-        if (newMonkey == null) {
-            this.monkey = null;
+        if (this.monkey == null) {
+            this.monkey = newMonkey;
             return true;
-        } else {
-            // 将此台阶置空
-            if (this.monkey == null) {
-                this.monkey = newMonkey;
-                return true;
-            } else
-                return false;
-        }
+        } else
+            return false;
     }
 }
