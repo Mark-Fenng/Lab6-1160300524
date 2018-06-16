@@ -75,6 +75,7 @@ public class Ladder {
         return true;
     }
 
+
     /**
      * 在梯子的指定台阶上放置猴子
      * 需要设置猴子的台阶必须原来是空的，否则无法添加成功，会返回false
