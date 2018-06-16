@@ -10,6 +10,9 @@ import java.util.List;
 class LadderGenerator {
     private static List<Ladder> ladders = null;
 
+    private LadderGenerator() {
+    }
+
     /**
      * 根据给出的梯子的数量和梯子上的台阶的数量，生成参数要求的梯子
      *
