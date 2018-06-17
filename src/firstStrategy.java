@@ -1,5 +1,8 @@
 import java.util.List;
 
+/**
+ * 猴子挑选梯子的策略：猴子每次挑选空的梯子或者方向一致的梯子
+ */
 public class firstStrategy implements ladderChoice {
     @Override
     public Ladder getLadder(Monkey monkey, List<Ladder> ladderList) {
