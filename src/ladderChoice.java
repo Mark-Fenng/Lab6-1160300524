@@ -17,11 +17,11 @@ public abstract class ladderChoice {
      */
     static ladderChoice getChoice() {
         double choice = Math.random() * 3;
-        if (choice > 0 && choice <= 1)
-            return new firstStrategy();
-        else if (choice > 1 && choice <= 2)
-            return new secondStrategy();
-        else
-            return new thirdStrategy();
+//        if (choice > 0 && choice <= 1)
+        return new firstStrategy();
+//        else if (choice > 1 && choice <= 2)
+//            return new secondStrategy();
+//        else
+//            return new thirdStrategy();
     }
 }
