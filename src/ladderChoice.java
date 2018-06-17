@@ -20,8 +20,8 @@ public abstract class ladderChoice {
 //        if (choice > 0 && choice <= 1)
 //        return new firstStrategy();
 //        else if (choice > 1 && choice <= 2)
-        return new secondStrategy();
+//        return new secondStrategy();
 //        else
-//            return new thirdStrategy();
+        return new thirdStrategy();
     }
 }
