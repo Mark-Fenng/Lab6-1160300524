@@ -27,6 +27,15 @@ public class Ladder {
     private String direction = null;
     private final List<Rung> rungs = Collections.synchronizedList(new ArrayList<>());
 
+    private void checkRep() {
+        assert (this.size >= 0);
+        assert (this.direction == null || this.direction.equals("L->R") || this.direction.equals("R->L"));
+        // 保证梯子上所有猴子的方向一致
+        for (Rung item : rungs) {
+            assert item.getMonkey() == null || (item.getMonkey().getDirection().equals(this.direction));
+        }
+    }
+
     Ladder(int rungNumber, int ID) {
         this.ID = ID;
         synchronized (rungs) {

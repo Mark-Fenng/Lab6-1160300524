@@ -20,6 +20,10 @@ public class Monkey implements Runnable {
     private final int speed;
     private long bornTime = 0, arrivedTime = 0;
 
+    private void checkRep() {
+        assert (this.speed >= 1);
+    }
+
     Monkey(int ID, String direction, int v) {
         this.ID = ID;
         this.direction = direction.equals("L->R");
