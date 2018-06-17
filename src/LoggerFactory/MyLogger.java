@@ -1,11 +1,27 @@
 package LoggerFactory;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.logging.FileHandler;
-import java.util.logging.Logger;
+import java.util.logging.*;
 
 public class MyLogger {
+    private static Logger myLogger = null;
+    private static FileHandler fileHandler;
+
+    private static void getLogger(String name, String FilePath) throws IOException {
+        myLogger = Logger.getLogger(name);
+        myLogger.setUseParentHandlers(true); // 设置此可以只在文件中输出，不在控制台打印
+
+        // 设置日志输出的样式
+        SimpleFormatter simpleFormatter = new SimpleFormatter();
+        LogRecord logRecord = new LogRecord(Level.INFO, "%1$tb %1$td, %1$tY %1$tl:%1$tM:%1$tS %1$Tp %2$s%n%4$s: %5$s%n");
+        simpleFormatter.format(logRecord);
+
+        // 以文件的方式处理产生的日志
+        fileHandler = new FileHandler(FilePath, 100000000, 1, true);  // 参数依次是 文件路径 一个文件的最大byte数，文件的个数，是否追加内容
+        fileHandler.setFormatter(simpleFormatter);
+        myLogger.addHandler(fileHandler);
+    }
+
     /**
      * 对logger的info方法的封装
      *
@@ -13,9 +29,10 @@ public class MyLogger {
      */
     public static void info(String message) {
         try {
-            List<Object> logger = LoggerFactory.getLogger("Logger", "./Lab.log");
-            ((Logger) logger.get(0)).info(message + "\n");
-            ((FileHandler) logger.get(1)).close();
+            if (myLogger == null)
+                getLogger("Lab6", "./Lab.log");
+            else
+                myLogger.info(message + "\n");
         } catch (IOException ignored) {
         }
     }
@@ -27,9 +44,10 @@ public class MyLogger {
      */
     public static void warning(String message) {
         try {
-            List<Object> logger = LoggerFactory.getLogger("Exception", "./Lab.log");
-            ((Logger) logger.get(0)).warning(message + "\n");
-            ((FileHandler) logger.get(1)).close();
+            if (myLogger == null)
+                getLogger("Lab6", "./Lab.log");
+            else
+                myLogger.warning(message + "\n");
         } catch (IOException ignored) {
         }
     }
@@ -41,11 +59,16 @@ public class MyLogger {
      */
     public static void severe(String message) {
         try {
-            List<Object> logger = LoggerFactory.getLogger("Exception", "./Lab.log");
-            ((Logger) logger.get(0)).severe(message + "\n");
-            ((FileHandler) logger.get(1)).close();
+            if (myLogger == null)
+                getLogger("Lab6", "./Lab.log");
+            else
+                myLogger.severe(message + "\n");
         } catch (IOException ignored) {
         }
+    }
+
+    public static void closeLogger() {
+        fileHandler.close();
     }
 
     public static String toString(Exception e) {

@@ -83,5 +83,6 @@ class MonkeyGenerator {
                     fairness--;
             }
         MyLogger.info("Fairness is " + fairness / (double) (N * N));
+        MyLogger.closeLogger();
     }
 }
