@@ -167,10 +167,16 @@ class Rung {
      */
     synchronized boolean setMonkey(Monkey newMonkey) {
         // 给空的台阶放置新的猴子
-        if (this.monkey == null) {
-            this.monkey = newMonkey;
+        if (newMonkey == null) {
+            this.monkey = null;
             return true;
-        } else
-            return false;
+        } else {
+            // 将此台阶置空
+            if (this.monkey == null) {
+                this.monkey = newMonkey;
+                return true;
+            } else
+                return false;
+        }
     }
 }
