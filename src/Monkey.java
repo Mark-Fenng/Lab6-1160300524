@@ -92,11 +92,14 @@ public class Monkey implements Runnable {
         Ladder ladder = choice.getLadder(this, LadderGenerator.getLadders()); // 猴子选择爬上的梯子对象
         // 如果猴子没有爬上梯子，就每个1s做一次决策，直到爬上梯子为止
         while (!onLadder) {
-            ladder = choice.getLadder(this, LadderGenerator.getLadders());
-            if (ladder != null)
+            ladder = choice.getLadder(this, LadderGenerator.getLadders()); // 猴子选择爬上的梯子对象
+            while (ladder != null && !onLadder) {
                 onLadder = ladder.addMonkey(0, this);
-            if (onLadder)
-                MyLogger.info(this.getID() + " Get on the Ladder " + ladder.getID());
+                if (onLadder)
+                    MyLogger.info(this.getID() + " Get on the Ladder " + ladder.getID());
+                else
+                    ladder = choice.getLadder(this, LadderGenerator.getLadders()); // 猴子选择爬上的梯子对象
+            }
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {

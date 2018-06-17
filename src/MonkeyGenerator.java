@@ -72,7 +72,7 @@ class MonkeyGenerator {
             }
         });
         endTime = System.currentTimeMillis();
-        double throughputRate = (endTime - startTime) / 1000.0 / N;
+        double throughputRate = N / ((endTime - startTime) / 1000.0);
         MyLogger.info("Throughput Rate is " + throughputRate);
         int fairness = 0;
         for (int i = 0; i < monkeys.size() - 1; i++)
