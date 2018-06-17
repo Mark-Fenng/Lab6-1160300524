@@ -122,7 +122,10 @@ public class Monkey implements Runnable {
                     tryIndex = h - 1;
                 if (ladder.addMonkey(tryIndex, this)) {
                     ladder.removeMonkey(position);
-                    MyLogger.info(this.getID() + " on the Ladder " + ladder.getID() + " jump to the " + (tryIndex + 1) + "th rung");
+                    if (ladder.getDirection().equals("L->R"))
+                        MyLogger.info(this.getID() + " on the Ladder " + ladder.getID() + " jump to the " + (tryIndex + 1) + "th rung . Direction L->R");
+                    else
+                        MyLogger.info(this.getID() + " on the Ladder " + ladder.getID() + " jump to the " + (h - tryIndex) + "th rung . Direction R->L");
                     position = tryIndex;
                 }
             }
