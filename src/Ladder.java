@@ -5,11 +5,11 @@ import java.util.List;
 
 /**
  * spec
- * AF: ID->梯子的唯一标识
- * size-> 当前梯子上爬着的猴子数量（便于在选择过河策略中的实现）
- * direction->当前梯子上所有猴子的过河方向（null->梯子上没有猴子 "R->L"所有猴子的方向都是从右到左 "L->R"所有的猴子方向都是从左到右）
- * rungs-> 一个列表，存储的台阶对象
- * RI: rungs的数量始终等于传入的rungNumber数量 direction的值只能是null,"L->R" ,"R->L"三个值 size>=0 梯子上所有猴子的方向必须是一致的
+ * AF: ID-&gt;梯子的唯一标识
+ * size-&gt; 当前梯子上爬着的猴子数量（便于在选择过河策略中的实现）
+ * direction-&gt;当前梯子上所有猴子的过河方向（null-&gt;梯子上没有猴子 "R-&gt;L"所有猴子的方向都是从右到左 "L-&gt;R"所有的猴子方向都是从左到右）
+ * rungs-&gt; 一个列表，存储的台阶对象
+ * RI: rungs的数量始终等于传入的rungNumber数量 direction的值只能是null,"L-&gt;R" ,"R-&gt;L"三个值 size&gt;=0 梯子上所有猴子的方向必须是一致的
  * safe from exposure:
  * 所有的成员变量的访问权限都是private，类的外部不可能直接访问这些变量
  * 为外部提供了修改某个台阶上猴子的封装方法，但是没有暴露出梯子内台阶的存储和实现，因为台阶对象rung是内部类

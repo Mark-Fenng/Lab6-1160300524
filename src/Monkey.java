@@ -5,10 +5,10 @@ import java.util.List;
 
 /**
  * spec:
- * AF:ID->猴子的唯一标识
- * direction->true="L->R",false="R->L"
- * speed -> 猴子在梯子上的爬行速度 ，正整数
- * RI: speed>=1，且为整数
+ * AF:ID-&gt;猴子的唯一标识
+ * direction-&gt;true="L-&gt;R",false="R-&gt;L"
+ * speed -&gt; 猴子在梯子上的爬行速度 ，正整数
+ * RI: speed&gt;=1，且为整数
  * safe from exposure:
  * 这个类中所有的成员变量都是private和不可变的，不会有表示泄漏的问题
  * thread safe:
