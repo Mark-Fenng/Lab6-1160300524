@@ -129,7 +129,7 @@ public class Ladder {
 
 /**
  * spec
- * AF:monkey->存储当前台阶上的猴子对象
+ * AF:monkey-&gt;存储当前台阶上的猴子对象
  * RI: 无
  * safe from exposure:
  * 内部的monkey对象是private属性，外部无法直接访问和修改
