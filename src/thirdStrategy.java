@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * 猴子挑选梯子的策略：在梯子上所有猴子的方向和需要做决策的猴子一致的梯子中，挑选猴子数量最少的梯子
  */
-public class thirdStrategy implements ladderChoice {
+public class thirdStrategy extends ladderChoice {
 
     @Override
     public Ladder getLadder(Monkey monkey, List<Ladder> ladderList) {

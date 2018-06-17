@@ -82,7 +82,7 @@ class MonkeyGenerator {
                 else
                     fairness--;
             }
-        MyLogger.info("Fairness is " + fairness / (double) (N * N));
+        MyLogger.info("Fairness is " + fairness / (N * (N - 1) / 2.0));
         MyLogger.closeLogger();
     }
 }

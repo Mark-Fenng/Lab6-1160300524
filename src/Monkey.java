@@ -88,7 +88,7 @@ public class Monkey implements Runnable {
         this.bornTime = System.currentTimeMillis();
         boolean onLadder = false; // 猴子是否已经上了梯子的一个标志
         int position = 0; // 猴子当前的位置
-        ladderChoice choice = new firstStrategy();
+        ladderChoice choice = ladderChoice.getChoice();
         Ladder ladder = choice.getLadder(this, LadderGenerator.getLadders()); // 猴子选择爬上的梯子对象
         // 如果猴子没有爬上梯子，就每个1s做一次决策，直到爬上梯子为止
         while (!onLadder) {
